@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script allows you to transform HTML files that contain chat messages into a text file formatted like a WhatsApp chat. It's ideal for anyone who wants to convert their chat exports into a more readable format.
+This script allows you to transform HTML files that contain chat messages into a text file formatted like a WhatsApp chat.
 
 ## Prerequisites
 
