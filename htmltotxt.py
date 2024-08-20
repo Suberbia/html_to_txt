@@ -17,7 +17,7 @@ def transform_html_to_whatsapp(html_file):
         sender_element = message.find('div', class_='from_name')
         if sender_element is None:
             continue  # Skip messages without sender information
-
+        
         sender = sender_element.text.strip()
         timestamp_div = message.find('div', class_="pull_right date details")
         if timestamp_div:
@@ -26,8 +26,26 @@ def transform_html_to_whatsapp(html_file):
             time_str = timestamp[11:19]
         else:
             date_str, time_str = None, None
+        
+        text_element = message.find('div', class_='text')
+        media_element = message.find('div', class_='media_wrap')
 
-        text = message.find('div', class_='text').text.strip()
+        if media_element:
+            title_element = media_element.find('div', class_='title bold')
+            description_element = media_element.find('div', class_='description')
+            status_element = media_element.find('div', class_='status details')
+
+            if title_element and description_element and status_element:
+                media_title = title_element.text.strip()
+                media_description = description_element.text.strip()
+                media_status = status_element.text.strip()
+                text = f"Media: {media_title} - {media_description} ({media_status})"
+            else:
+                continue  # Skip if media details are incomplete
+        elif text_element:
+            text = text_element.text.strip()
+        else:
+            continue  # Skip messages without text or media information
 
         # Format message in WhatsApp format
         if time_str:
@@ -42,3 +60,4 @@ def transform_html_to_whatsapp(html_file):
 
 # Usage example
 transform_html_to_whatsapp('messages.html')
+input('press enter to exit')
